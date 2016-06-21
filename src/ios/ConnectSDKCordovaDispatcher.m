@@ -405,7 +405,7 @@ static id orNull (id obj)
 
     if (params) {
         AppInfo* appInfo = [AppInfo appInfoForId:appId];
-        [device.launcher launchAppWithInfo:appInfo params:params success:command.success failure:command.failure];
+        [device.launcher launchAppWithInfo:appInfo params:params success:command.appLaunchSuccess failure:command.failure];
     } else {
         [device.launcher launchApp:appId success:command.appLaunchSuccess failure:command.failure];
     }
