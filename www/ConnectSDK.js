@@ -1239,10 +1239,11 @@ var MediaControlWrapper = createClass(
         this._objectId = data.objectId;
     },
 
-    _sendCommand: function (command, params) {
+    _sendCommand: function (command, params, subscribe) {
         params = params || {};
         params.objectId = this._objectId;
-        return this._device._sendCommand("mediaControl", command, params);
+        subscribe = subscribe || false;
+        return this._device._sendCommand("mediaControl", command, params, subscribe);
     },
 
     play: function () {
@@ -1277,8 +1278,12 @@ var MediaControlWrapper = createClass(
         return this._sendCommand("getPosition");
     },
 
+    getPlayState: function () {
+        return this._sendCommand("getPlayState");
+    },
+
     subscribePlayState: function () {
-        return this._sendCommand("subscribePlayState");
+        return this._sendCommand("subscribePlayState", {}, true);
     }
 });
 
@@ -1771,9 +1776,17 @@ registerDeviceInterface("mediaControl",
 
     /**
      * @method
-     * @success {playStateCallback}
+     * @success {getPlayStateCallback}
      */
-    subscribePlayState: {}
+    getPlayState: {},
+
+    /**
+     * @method
+     * @success {subscribePlayState}
+     */
+    subscribePlayState: {
+        subscribe: true
+    }
 });
 
 /** @class PlaylistControl */
