@@ -20,7 +20,7 @@ if (!isMac) {
 	};
 
 	var paths = {
-		"ConnectSDK_Framework": "http://github.com/phablulo/Connect-SDK-iOS/releases/download/1.6.0/ConnectSDK.framework.zip",
+		"ConnectSDK_Framework": "http://github.com/ConnectSDK/Connect-SDK-iOS/releases/download/1.6.0/ConnectSDK.framework.zip",
 		"ConnectSDK_Version": "",
 		"FlingSDK_URL": "https://s3-us-west-1.amazonaws.com/amazon-fling/AmazonFling-SDK.zip",
 		"AmazonFling_Framework": "./csdk_tmp/ios-sdk/frameworks/AmazonFling.framework",
@@ -128,24 +128,24 @@ if (!isMac) {
 
 	iOSInstall.prototype.downloadConnectSDK = function () {
 		var deferred = Q.defer();
-		console.log("Downloading ConnectSDK");
+		console.log("[] Downloading ConnectSDK");
 		var file = fs.createWriteStream(safePath("./csdk_tmp/ConnectSDK.framework.zip"));
 		request.get(paths.ConnectSDK_Framework)
 			.on('error', function (err) {
 				deferred.reject(err);
 			}).pipe(file).on('close', function () {
-				console.log('Extracting ConnectSDK');
+				console.log('[] Extracting ConnectSDK');
 				Q.nfcall(exec, "unzip -q " + safePath('./csdk_tmp/ConnectSDK.framework.zip') + " -d " + safePath('./csdk_tmp'))
 					.then(function () {
+					console.log("[] extracted. Removing");
 					return Q.nfcall(exec, commands.rm + " " + safePath(csdkDirectory + "/ConnectSDK.framework"));
-				})
-					.then(function () {
+				}).then(function () {
+					console.log("[] removed. Moving");
 					return Q.nfcall(exec, commands.mv + " " + safePath("./csdk_tmp/ConnectSDK.framework") + " " + safePath(csdkDirectory + "/ConnectSDK.framework"));
-				})
-					.then(function () {
+				}).then(function () {
+					console.log("[] Moved");
 					deferred.resolve();
-				})
-					.catch(function (err) {
+				}).catch(function (err) {
 					deferred.reject(err);
 				});
 			});

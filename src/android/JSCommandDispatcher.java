@@ -41,7 +41,7 @@ import com.connectsdk.core.SubtitleInfo;
 import com.connectsdk.core.TextInputStatusInfo;
 import com.connectsdk.device.ConnectableDevice;
 import com.connectsdk.service.DeviceService;
-import com.connectsdk.service.WebOSTVService;
+// import com.connectsdk.service.WebOSTVService;
 import com.connectsdk.service.capability.ExternalInputControl;
 import com.connectsdk.service.capability.ExternalInputControl.ExternalInputListListener;
 import com.connectsdk.service.capability.Launcher;
@@ -738,7 +738,7 @@ public class JSCommandDispatcher {
         wrapper.session.sendMessage(json, command.getResponseListener());
     }
 
-    /* Service-specific methods */
+    /* Service-specific methods * /
     @CommandMethod
     public void webOSTVService_connectToApp(JSCommand command, JSONObject args) throws JSONException {
         WebOSTVService service = (WebOSTVService) device.getServiceByName(WebOSTVService.ID);
